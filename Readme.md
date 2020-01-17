@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Максим Ткаченко](https://up.htmlacademy.ru/javascript/19/user/948039).
-* Наставник: `Неизвестно`.
+* Наставник: [Даша Клюхина].
 
 ---
 
