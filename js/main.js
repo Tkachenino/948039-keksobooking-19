@@ -6,6 +6,13 @@ var getRandom = function (min, max) {
   return Math.round(min + (Math.random() * (max - 1)));
 };
 
+var map = document.querySelector('.map__pins');
+var mapWidth = map.offsetWidth;
+var pin = document.querySelector('.map__pin');
+var widthP = pin.offsetWidth;
+var heightP = pin.offsetHeight;
+console.log(widthP);
+console.log(heightP);
 // создает массив данных имеющихся пользователей
 var buildAdd = function (array) {
   array.push({
@@ -26,8 +33,8 @@ var buildAdd = function (array) {
       photos: 'arr photo'
     },
     location: {
-      x: getRandom(0, 1150),
-      y: getRandom(130, 630)
+      x: getRandom(0, mapWidth) - widthP,
+      y: getRandom(130, 630) - heightP
     }
   });
 };
@@ -38,7 +45,6 @@ for (var j = 0; j < numberOfAdd; j++) {
 
 document.querySelector('.map').classList.remove('map--faded');
 
-var similarMap = document.querySelector('.map__pins');
 var similarAddPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var renderAddPin = function (creatArr) {
   var AddPin = similarAddPinTemplate.cloneNode(true);
@@ -55,4 +61,4 @@ addArr.forEach(function (currentItem) {
 
 });
 
-similarMap.appendChild(fragment);
+map.appendChild(fragment);
