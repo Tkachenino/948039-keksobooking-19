@@ -9,10 +9,8 @@ var getRandom = function (min, max) {
 var map = document.querySelector('.map__pins');
 var mapWidth = map.offsetWidth;
 var pin = document.querySelector('.map__pin');
-var widthP = pin.clientWidth;
-var heightP = pin.clientHeight;
-console.log(widthP);
-console.log(heightP);
+var pinWidth = pin.clientWidth;
+var pinHeight = pin.clientHeight;
 // создает массив данных имеющихся пользователей
 var buildAdd = function (array) {
   array.push({
@@ -33,8 +31,8 @@ var buildAdd = function (array) {
       photos: 'arr photo'
     },
     location: {
-      x: getRandom(widthP, mapWidth) - widthP,
-      y: getRandom(130, 630) - heightP
+      x: getRandom(pinWidth, mapWidth) - pinWidth,
+      y: getRandom(130, 630) - pinHeight
     }
   });
 };
@@ -46,11 +44,11 @@ for (var j = 0; j < numberOfAdd; j++) {
 document.querySelector('.map').classList.remove('map--faded');
 
 var similarAddPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-var renderAddPin = function (creatArr) {
+var renderAddPin = function (element) {
   var AddPin = similarAddPinTemplate.cloneNode(true);
-  AddPin.style = 'left:' + creatArr.location.x + 'px; top:' + creatArr.location.y + 'px;';
-  AddPin.querySelector('img').setAttribute('src', creatArr.author.avatar);
-  AddPin.querySelector('img').setAttribute('alt', creatArr.offer.title);
+  AddPin.style = 'left:' + element.location.x + 'px; top:' + element.location.y + 'px;';
+  AddPin.querySelector('img').setAttribute('src', element.author.avatar);
+  AddPin.querySelector('img').setAttribute('alt', element.offer.title);
   return AddPin;
 };
 
