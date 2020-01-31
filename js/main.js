@@ -9,8 +9,8 @@ var getRandom = function (min, max) {
 var map = document.querySelector('.map__pins');
 var mapWidth = map.offsetWidth;
 var pin = document.querySelector('.map__pin');
-var widthP = pin.offsetWidth;
-var heightP = pin.offsetHeight;
+var widthP = pin.clientWidth;
+var heightP = pin.clientHeight;
 console.log(widthP);
 console.log(heightP);
 // создает массив данных имеющихся пользователей
@@ -33,7 +33,7 @@ var buildAdd = function (array) {
       photos: 'arr photo'
     },
     location: {
-      x: getRandom(0, mapWidth) - widthP,
+      x: getRandom(widthP, mapWidth) - widthP,
       y: getRandom(130, 630) - heightP
     }
   });
