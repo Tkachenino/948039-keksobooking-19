@@ -26,8 +26,8 @@ var buildAdd = function (array) {
       guests: 2,
       checkin: '12:00',
       checkout: '13:00',
-      features: 'push arr',
-      description: '',
+      features: ['wifi', 'dishwasher', 'parking', 'washer', 'эlevator', 'conditioner'],
+      description: 'Замечательный дворец в старинном центре города. Только для тех кто может себе позволить дворец. Лакеев и прочих жокеев просим не беспокоить.',
       photos: 'http://o0.github.io/assets/images/tokyo/hotel1.jpg'
     },
     location: {
