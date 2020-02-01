@@ -21,7 +21,7 @@ var buildAdd = function (array) {
       title: titles[getRandom(0, 3)],
       address: '600, 350',
       price: '400',
-      type: 'palace',
+      type: {palace: 'Дворец', flat: 'Квартира', bungalo: 'Бунгало',house: 'Дом'},
       rooms: 4,
       guests: 2,
       checkin: '12:00',
@@ -54,16 +54,17 @@ var renderAddPin = function (element) {
 
 var similarAdddCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var renderAddCard = function (element) {
-  var AddCard = similarAdddCardTemplate.cloneNode(true);
-  AddCard.querySelector('.popup__title').innerHTML = element.offer.title;
-  AddCard.querySelector('.popup__text--address').innerHTML = element.offer.address;
-  AddCard.querySelector('.popup__text--price').innerHTML = element.offer.price + 'Р/ночь';
-  AddCard.querySelector('.popup__type').innerHTML = element.offer.type;
-  AddCard.querySelector('.popup__text--capacity').innerHTML = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
-  AddCard.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
-  AddCard.querySelector('.popup__features');
-  AddCard.querySelector('.popup__photos').querySelector('img').src = element.offer.photos;
-  return AddCard;
+  var addCard = similarAdddCardTemplate.cloneNode(true);
+  addCard.querySelector('.popup__title').innerHTML = element.offer.title;
+  addCard.querySelector('.popup__text--address').innerHTML = element.offer.address;
+  addCard.querySelector('.popup__text--price').innerHTML = element.offer.price + 'Р/ночь';
+  addCard.querySelector('.popup__type').innerHTML = element.offer.type.palace;
+  addCard.querySelector('.popup__text--capacity').innerHTML = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
+  addCard.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+  addCard.querySelector('.popup__features');
+  addCard.querySelector('.popup__photos').querySelector('img').src = element.offer.photos;
+  addCard.querySelector('.popup__avatar').src = element.author.avatar;
+  return addCard;
 };
 
 map.appendChild(renderAddCard(addArr[0]));
