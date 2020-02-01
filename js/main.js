@@ -20,7 +20,7 @@ var buildAdd = function (array) {
     offer: {
       title: titles[getRandom(0, 3)],
       address: '600, 350',
-      price: '400 т.р.',
+      price: '400',
       type: 'palace',
       rooms: 4,
       guests: 2,
@@ -28,7 +28,7 @@ var buildAdd = function (array) {
       checkout: '13:00',
       features: 'push arr',
       description: '',
-      photos: 'arr photo'
+      photos: 'http://o0.github.io/assets/images/tokyo/hotel1.jpg'
     },
     location: {
       x: getRandom(pinWidth, mapWidth) - pinWidth,
@@ -52,11 +52,25 @@ var renderAddPin = function (element) {
   return AddPin;
 };
 
-var fragment = document.createDocumentFragment();
+var similarAdddCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var renderAddCard = function (element) {
+  var AddCard = similarAdddCardTemplate.cloneNode(true);
+  AddCard.querySelector('.popup__title').innerHTML = element.offer.title;
+  AddCard.querySelector('.popup__text--address').innerHTML = element.offer.address;
+  AddCard.querySelector('.popup__text--price').innerHTML = element.offer.price + 'Р/ночь';
+  AddCard.querySelector('.popup__type').innerHTML = element.offer.type;
+  AddCard.querySelector('.popup__text--capacity').innerHTML = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
+  AddCard.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+  AddCard.querySelector('.popup__features');
+  AddCard.querySelector('.popup__photos').querySelector('img').src = element.offer.photos;
+  return AddCard;
+};
 
+map.appendChild(renderAddCard(addArr[0]));
+
+var fragment = document.createDocumentFragment();
 addArr.forEach(function (currentItem) {
   fragment.appendChild(renderAddPin(currentItem));
-
 });
 
 map.appendChild(fragment);
