@@ -11,6 +11,8 @@ var mapWidth = map.offsetWidth;
 var pin = document.querySelector('.map__pin');
 var pinWidth = pin.clientWidth;
 var pinHeight = pin.clientHeight;
+var typeOfPlace = {palace: 'Дворец', flat: 'Квартира', bungalo: 'Бунгало', house: 'Дом'};
+
 // создает массив данных имеющихся пользователей
 var buildAdd = function (array) {
   array.push({
@@ -21,12 +23,12 @@ var buildAdd = function (array) {
       title: titles[getRandom(0, 3)],
       address: '600, 350',
       price: '400',
-      type: {palace: 'Дворец', flat: 'Квартира', bungalo: 'Бунгало',house: 'Дом'},
+      type: 'palace',
       rooms: 4,
       guests: 2,
       checkin: '12:00',
       checkout: '13:00',
-      features: ['wifi', 'dishwasher', 'parking', 'washer', 'эlevator', 'conditioner'],
+      features: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
       description: 'Замечательный дворец в старинном центре города. Только для тех кто может себе позволить дворец. Лакеев и прочих жокеев просим не беспокоить.',
       photos: 'http://o0.github.io/assets/images/tokyo/hotel1.jpg'
     },
@@ -51,6 +53,16 @@ var renderAddPin = function (element) {
   AddPin.querySelector('img').setAttribute('alt', element.offer.title);
   return AddPin;
 };
+var createFeature = function (element) {
+  var newFeatures = document.createDocumentFragment();
+  element.offer.features.forEach(function (currentIndex) {
+    var newFeature = document.createElement('li');
+    newFeature.classList.add('popup__feature');
+    newFeature.classList.add('popup__feature--' + currentIndex);
+    newFeatures.appendChild(newFeature);
+  });
+  return newFeatures;
+};
 
 var similarAdddCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var renderAddCard = function (element) {
@@ -58,10 +70,10 @@ var renderAddCard = function (element) {
   addCard.querySelector('.popup__title').innerHTML = element.offer.title;
   addCard.querySelector('.popup__text--address').innerHTML = element.offer.address;
   addCard.querySelector('.popup__text--price').innerHTML = element.offer.price + 'Р/ночь';
-  addCard.querySelector('.popup__type').innerHTML = element.offer.type.palace;
+  addCard.querySelector('.popup__type').innerHTML = typeOfPlace[element.offer.type];
   addCard.querySelector('.popup__text--capacity').innerHTML = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
   addCard.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
-  addCard.querySelector('.popup__features');
+  addCard.querySelector('.popup__features').appendChild(createFeature(element));
   addCard.querySelector('.popup__photos').querySelector('img').src = element.offer.photos;
   addCard.querySelector('.popup__avatar').src = element.author.avatar;
   return addCard;
