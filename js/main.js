@@ -84,7 +84,20 @@ mainPin.addEventListener('keydown', function (evt) {
   }
 });
 
-
+var optionGuest = document.querySelectorAll('#capacity option');
+var optionRoom = document.querySelectorAll('#room_number option');
+var sectionRoom = document.querySelector('#room_number');
+sectionRoom.addEventListener('invalid', function () {
+  if (optionRoom[0].selected && (optionGuest[1].selected || optionGuest[2].selected || optionGuest[3].selected)) {
+    sectionRoom.setCustomValidity('имя персонажа не может содержать менее 2 символов');
+  } else {
+    sectionRoom.setCustomValidity('');
+  }
+});
+console.log(optionRoom[0]);
+//
+//
+//
 // var similarAddPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 // var renderAddPin = function (element) {
 //   var AddPin = similarAddPinTemplate.cloneNode(true);
