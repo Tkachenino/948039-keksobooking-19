@@ -92,13 +92,13 @@ var sectionRoom = document.querySelector('#room_number');
 var formSection = document.querySelector('.ad-form');
 
 var checkValidityHendler = function () {
-  if (sectionGuest.value === 1 && sectionRoom.value === 1) {
+  if (sectionGuest.value === '1' && sectionRoom.value === '1') {
     sectionRoom.setCustomValidity('');
-  } else if (sectionGuest.value === 1 || sectionGuest.value === 2 && sectionRoom.value === 2) {
+  } else if ((sectionGuest.value === '1' || sectionGuest.value === '2') && sectionRoom.value === '2') {
     sectionRoom.setCustomValidity('');
-  } else if (sectionGuest.value === 1 || sectionGuest.value === 2 || sectionGuest.value === 3 && sectionRoom.value === 3) {
+  } else if ((sectionGuest.value === '1' || sectionGuest.value === '2' || sectionGuest.value === '3') && sectionRoom.value === '3') {
     sectionRoom.setCustomValidity('');
-  } else if (sectionGuest.value === 0 && sectionRoom.value === 100) {
+  } else if (sectionGuest.value === '0' && sectionRoom.value === '0') {
     sectionRoom.setCustomValidity('');
   } else {
     sectionRoom.setCustomValidity('Опачки, ошибка');
