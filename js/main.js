@@ -60,8 +60,9 @@ var fieldsetToMapFilter = document.querySelectorAll('.map__filters fieldset');
 setDisabled(fieldsetToMapFilter);
 var selectorToMapFilter = document.querySelectorAll('.map__filters select');
 setDisabled(selectorToMapFilter);
-
+var similarAddPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var mainPin = document.querySelector('.map__pin--main');
+document.querySelector('#address').value = mainPin.style.left + ' левой долготы и ' + mainPin.style.top + ' верхней ширины';
 mainPin.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     document.querySelector('.map').classList.remove('map--faded');
@@ -70,6 +71,7 @@ mainPin.addEventListener('mousedown', function (evt) {
     resetDisabled(fieldsetToMapFilter);
     resetDisabled(selectorToMapFilter);
     document.querySelector('#address').value = mainPin.style.left + ' левой долготы и ' + mainPin.style.top + ' верхней ширины';
+    map.appendChild(fragment);
   }
 });
 
@@ -81,31 +83,35 @@ mainPin.addEventListener('keydown', function (evt) {
     resetDisabled(fieldsetToMapFilter);
     resetDisabled(selectorToMapFilter);
     document.querySelector('#address').value = mainPin.style.left + ' левой долготы и ' + mainPin.style.top + ' верхней ширины';
+    map.appendChild(fragment);
   }
 });
 
-var optionGuest = document.querySelectorAll('#capacity option');
-var optionRoom = document.querySelectorAll('#room_number option');
+var sectionGuest = document.querySelector('#capacity');
 var sectionRoom = document.querySelector('#room_number');
-sectionRoom.addEventListener('invalid', function () {
-  if (optionRoom[0].selected && (optionGuest[1].selected || optionGuest[2].selected || optionGuest[3].selected)) {
-    sectionRoom.setCustomValidity('имя персонажа не может содержать менее 2 символов');
-  } else {
+var formSection = document.querySelector('.ad-form');
+
+var checkValidityHendler = function () {
+  if (sectionGuest.value === 1 && sectionRoom.value === 1) {
     sectionRoom.setCustomValidity('');
+  } else if (sectionGuest.value === 1 || sectionGuest.value === 2 && sectionRoom.value === 2) {
+    sectionRoom.setCustomValidity('');
+  } else if (sectionGuest.value === 1 || sectionGuest.value === 2 || sectionGuest.value === 3 && sectionRoom.value === 3) {
+    sectionRoom.setCustomValidity('');
+  } else if (sectionGuest.value === 0 && sectionRoom.value === 100) {
+    sectionRoom.setCustomValidity('');
+  } else {
+    sectionRoom.setCustomValidity('Опачки, ошибка');
   }
-});
-console.log(optionRoom[0]);
-//
-//
-//
-// var similarAddPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-// var renderAddPin = function (element) {
-//   var AddPin = similarAddPinTemplate.cloneNode(true);
-//   AddPin.style = 'left:' + element.location.x + 'px; top:' + element.location.y + 'px;';
-//   AddPin.querySelector('img').setAttribute('src', element.author.avatar);
-//   AddPin.querySelector('img').setAttribute('alt', element.offer.title);
-//   return AddPin;
-// };
+};
+formSection.addEventListener('click', checkValidityHendler);
+var renderAddPin = function (element) {
+  var AddPin = similarAddPinTemplate.cloneNode(true);
+  AddPin.style = 'left:' + element.location.x + 'px; top:' + element.location.y + 'px;';
+  AddPin.querySelector('img').setAttribute('src', element.author.avatar);
+  AddPin.querySelector('img').setAttribute('alt', element.offer.title);
+  return AddPin;
+};
 // var createFeature = function (element) {
 //   var newFeatures = document.createDocumentFragment();
 //   element.offer.features.forEach(function (currentIndex) {
@@ -134,9 +140,7 @@ console.log(optionRoom[0]);
 
 // map.appendChild(renderAddCard(addArr[0]));
 
-// var fragment = document.createDocumentFragment();
-// addArr.forEach(function (currentItem) {
-//   fragment.appendChild(renderAddPin(currentItem));
-// });
-
-// map.appendChild(fragment);
+var fragment = document.createDocumentFragment();
+addArr.forEach(function (currentItem) {
+  fragment.appendChild(renderAddPin(currentItem));
+});
