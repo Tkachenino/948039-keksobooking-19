@@ -92,17 +92,24 @@ var sectionRoom = document.querySelector('#room_number');
 var formSection = document.querySelector('.ad-form');
 
 var checkValidityHendler = function () {
-  if (sectionGuest.value === '1' && sectionRoom.value === '1') {
+  if ((parseInt(sectionGuest.value, 10) <= parseInt(sectionRoom.value, 10)) && parseInt(sectionGuest.value, 10) !== 0 && parseInt(sectionRoom.value, 10) !== 100) {
     sectionRoom.setCustomValidity('');
-  } else if ((sectionGuest.value === '1' || sectionGuest.value === '2') && sectionRoom.value === '2') {
-    sectionRoom.setCustomValidity('');
-  } else if ((sectionGuest.value === '1' || sectionGuest.value === '2' || sectionGuest.value === '3') && sectionRoom.value === '3') {
-    sectionRoom.setCustomValidity('');
-  } else if (sectionGuest.value === '0' && sectionRoom.value === '0') {
+  } else if (parseInt(sectionGuest.value, 10) === 0 && parseInt(sectionRoom.value, 10) === 100) {
     sectionRoom.setCustomValidity('');
   } else {
     sectionRoom.setCustomValidity('Опачки, ошибка');
   }
+  // if (sectionGuest.value === '1' && sectionRoom.value === '1') {
+  //   sectionRoom.setCustomValidity('');
+  // } else if ((sectionGuest.value === '1' || sectionGuest.value === '2') && sectionRoom.value === '2') {
+  //   sectionRoom.setCustomValidity('');
+  // } else if ((sectionGuest.value === '1' || sectionGuest.value === '2' || sectionGuest.value === '3') && sectionRoom.value === '3') {
+  //   sectionRoom.setCustomValidity('');
+  // } else if (sectionGuest.value === '0' && sectionRoom.value === '100') {
+  //   sectionRoom.setCustomValidity('');
+  // } else {
+  //   sectionRoom.setCustomValidity('Опачки, ошибка');
+  // }
 };
 formSection.addEventListener('click', checkValidityHendler);
 var renderAddPin = function (element) {
