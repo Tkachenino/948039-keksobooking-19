@@ -139,18 +139,29 @@ var renderAddCard = function (element) {
 
 var basketForPin = document.createDocumentFragment();
 addArr.forEach(function (currentItem) {
-  basketForPin.appendChild(renderAddPin(currentItem));
-});
-
-var getInfoTurgetCard = renderAddCard(addArr[1]);
-map.addEventListener('click', function (evt) {
-  if (evt.target.matches('.unic')) {
+  var pinClone = renderAddPin(currentItem);
+  var openPopup = function () {
+    var getInfoTurgetCard = renderAddCard(currentItem);
+    if (document.querySelector('.map__card')) {
+      map.removeChild(document.querySelector('.map__card'));
+    }
     map.appendChild(getInfoTurgetCard);
-  }
-});
-
-map.addEventListener('click', function (evt) {
-  if (evt.target && evt.target.matches('.popup__close')) {
-    map.removeChild(getInfoTurgetCard);
-  }
+    var closePopup = function (evt) {
+      if (evt.key === 'Escape') {
+        map.removeChild(getInfoTurgetCard);
+        map.removeEventListener('keydown', closePopup);
+      }
+    };
+    map.addEventListener('keydown', closePopup);
+    getInfoTurgetCard.querySelector('.popup__close').addEventListener('click', function () {
+      map.removeChild(getInfoTurgetCard);
+    });
+  };
+  pinClone.addEventListener('click', openPopup);
+  pinClone.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      openPopup();
+    }
+  });
+  basketForPin.appendChild(pinClone);
 });
