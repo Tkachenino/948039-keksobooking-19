@@ -121,7 +121,7 @@ var checkValidityHendler = function () {
 formSection.addEventListener('click', checkValidityHendler);
 
 var userTitle = document.querySelector('#title');
-userTitle.addEventListener('invalid', function (evt) {
+userTitle.addEventListener('invalid', function () {
   if (userTitle.validity.tooShort) {
     userTitle.setCustomValidity('Имя должно состоять минимум из 30 символов');
   } else if (userTitle.validity.tooLong) {
@@ -136,12 +136,13 @@ userTitle.addEventListener('invalid', function (evt) {
 var userPrice = document.querySelector('#price');
 var userAppart = document.querySelector('#type');
 
-userPrice.setAttribute('min', typeOfPlace.flat.cost);
-userPrice.setAttribute('placeholder', typeOfPlace.flat.cost);
+var setCostForAppart = function (appart, cost) {
+  cost.setAttribute('min', typeOfPlace[appart.value].cost);
+  cost.setAttribute('placeholder', typeOfPlace[appart.value].cost);
+};
 
 formSection.addEventListener('change', function () {
-  userPrice.setAttribute('min', typeOfPlace[userAppart.value].cost);
-  userPrice.setAttribute('placeholder', typeOfPlace[userAppart.value].cost);
+  setCostForAppart(userAppart, userPrice);
 });
 
 document.querySelector('#avatar').setAttribute('accept', 'image/png, image/jpeg');
