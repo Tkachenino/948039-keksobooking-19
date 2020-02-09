@@ -11,7 +11,24 @@ var mapWidth = map.offsetWidth;
 var pin = document.querySelector('.map__pin');
 var pinWidth = pin.clientWidth;
 var pinHeight = pin.clientHeight;
-var typeOfPlace = {palace: 'Дворец', flat: 'Квартира', bungalo: 'Бунгало', house: 'Дом'};
+var typeOfPlace = {
+  palace: {
+    name: 'Дворец',
+    cost: 10000
+  },
+  flat: {
+    name: 'Квартира',
+    cost: 1000
+  },
+  bungalo: {
+    name: 'Бунгало',
+    cost: 0
+  },
+  house: {
+    name: 'Дом',
+    cost: 5000
+  }
+};
 
 // создает массив данных имеющихся пользователей
 var buildAdd = function (array) {
@@ -118,25 +135,13 @@ userTitle.addEventListener('invalid', function (evt) {
 
 var userPrice = document.querySelector('#price');
 var userAppart = document.querySelector('#type');
-userPrice.setAttribute('min', 1000);
-userPrice.setAttribute('placeholder', 1000);
+
+userPrice.setAttribute('min', typeOfPlace.flat.cost);
+userPrice.setAttribute('placeholder', typeOfPlace.flat.cost);
+
 formSection.addEventListener('change', function () {
-  if (userAppart.value === 'bungalo') {
-    userPrice.setAttribute('min', 0);
-    userPrice.setAttribute('placeholder', 0);
-  }
-  if (userAppart.value === 'flat') {
-    userPrice.setAttribute('min', 1000);
-    userPrice.setAttribute('placeholder', 1000);
-  }
-  if (userAppart.value === 'house') {
-    userPrice.setAttribute('min', 5000);
-    userPrice.setAttribute('placeholder', 5000);
-  }
-  if (userAppart.value === 'palace') {
-    userPrice.setAttribute('min', 10000);
-    userPrice.setAttribute('placeholder', 10000);
-  }
+  userPrice.setAttribute('min', typeOfPlace[userAppart.value].cost);
+  userPrice.setAttribute('placeholder', typeOfPlace[userAppart.value].cost);
 });
 
 document.querySelector('#avatar').setAttribute('accept', 'image/png, image/jpeg');
@@ -183,7 +188,7 @@ var renderAddCard = function (element) {
   addCard.querySelector('.popup__title').innerHTML = element.offer.title;
   addCard.querySelector('.popup__text--address').innerHTML = element.offer.address;
   addCard.querySelector('.popup__text--price').innerHTML = element.offer.price + 'Р/ночь';
-  addCard.querySelector('.popup__type').innerHTML = typeOfPlace[element.offer.type];
+  addCard.querySelector('.popup__type').innerHTML = typeOfPlace[element.offer.type].name;
   addCard.querySelector('.popup__text--capacity').innerHTML = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
   addCard.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
   addCard.querySelector('.popup__features').appendChild(createFeature(element));
@@ -197,7 +202,7 @@ var basketForPin = document.createDocumentFragment();
 var pressClosePopupHendler = function (evt) {
   if (evt.key === 'Escape') {
     map.removeChild(document.querySelector('.map__card'));
-    map.removeEventListener('keydown', pressClosePopupHendler);
+    document.removeEventListener('keydown', pressClosePopupHendler);
   }
 };
 
@@ -209,7 +214,7 @@ addArr.forEach(function (currentItem) {
       map.removeChild(document.querySelector('.map__card'));
     }
     map.appendChild(getInfoTurgetCard);
-    map.addEventListener('keydown', pressClosePopupHendler);
+    document.addEventListener('keydown', pressClosePopupHendler);
 
     getInfoTurgetCard.querySelector('.popup__close').addEventListener('click', function () {
       map.removeChild(getInfoTurgetCard);
