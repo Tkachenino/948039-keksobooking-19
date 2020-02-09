@@ -102,6 +102,61 @@ var checkValidityHendler = function () {
 
 };
 formSection.addEventListener('click', checkValidityHendler);
+
+var userTitle = document.querySelector('#title');
+userTitle.addEventListener('invalid', function (evt) {
+  if (userTitle.validity.tooShort) {
+    userTitle.setCustomValidity('Имя должно состоять минимум из 30 символов');
+  } else if (userTitle.validity.tooLong) {
+    userTitle.setCustomValidity('Имя не должно превышать 100 символов');
+  } else if (userTitle.validity.valueMissing) {
+    userTitle.setCustomValidity('Обязательное поле');
+  } else {
+    userTitle.setCustomValidity('');
+  }
+});
+
+var userPrice = document.querySelector('#price');
+var userAppart = document.querySelector('#type');
+userPrice.setAttribute('min', 1000);
+userPrice.setAttribute('placeholder', 1000);
+formSection.addEventListener('change', function () {
+  if (userAppart.value === 'bungalo') {
+    userPrice.setAttribute('min', 0);
+    userPrice.setAttribute('placeholder', 0);
+  }
+  if (userAppart.value === 'flat') {
+    userPrice.setAttribute('min', 1000);
+    userPrice.setAttribute('placeholder', 1000);
+  }
+  if (userAppart.value === 'house') {
+    userPrice.setAttribute('min', 5000);
+    userPrice.setAttribute('placeholder', 5000);
+  }
+  if (userAppart.value === 'palace') {
+    userPrice.setAttribute('min', 10000);
+    userPrice.setAttribute('placeholder', 10000);
+  }
+});
+
+document.querySelector('#avatar').setAttribute('accept', 'image/png, image/jpeg');
+document.querySelector('#images').setAttribute('accept', 'image/png, image/jpeg');
+
+
+var userAddress = document.querySelector('#address');
+userAddress.setAttribute('readonly', true);
+
+var userTimeIn = document.querySelector('#timein');
+var userTimeOut = document.querySelector('#timeout');
+
+userTimeIn.addEventListener('change', function () {
+  userTimeOut.value = userTimeIn.value;
+});
+userTimeOut.addEventListener('change', function () {
+  userTimeIn.value = userTimeOut.value;
+});
+
+
 var renderAddPin = function (element) {
   var AddPin = similarAddPinTemplate.cloneNode(true);
   AddPin.style = 'left:' + element.location.x + 'px; top:' + element.location.y + 'px;';
@@ -138,6 +193,14 @@ var renderAddCard = function (element) {
 };
 
 var basketForPin = document.createDocumentFragment();
+
+var pressClosePopupHendler = function (evt) {
+  if (evt.key === 'Escape') {
+    map.removeChild(document.querySelector('.map__card'));
+    map.removeEventListener('keydown', pressClosePopupHendler);
+  }
+};
+
 addArr.forEach(function (currentItem) {
   var pinClone = renderAddPin(currentItem);
   var openPopup = function () {
@@ -146,22 +209,12 @@ addArr.forEach(function (currentItem) {
       map.removeChild(document.querySelector('.map__card'));
     }
     map.appendChild(getInfoTurgetCard);
-    var closePopup = function (evt) {
-      if (evt.key === 'Escape') {
-        map.removeChild(getInfoTurgetCard);
-        map.removeEventListener('keydown', closePopup);
-      }
-    };
-    map.addEventListener('keydown', closePopup);
+    map.addEventListener('keydown', pressClosePopupHendler);
+
     getInfoTurgetCard.querySelector('.popup__close').addEventListener('click', function () {
       map.removeChild(getInfoTurgetCard);
     });
   };
   pinClone.addEventListener('click', openPopup);
-  pinClone.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
-      openPopup();
-    }
-  });
   basketForPin.appendChild(pinClone);
 });
