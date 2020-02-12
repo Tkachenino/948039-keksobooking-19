@@ -18,6 +18,7 @@
       cost: 5000
     }
   };
+  var mainPin = document.querySelector('.map__pin--main');
 
   var createFeature = function (element) {
     var newFeatures = document.createDocumentFragment();
@@ -44,6 +45,41 @@
     addCard.querySelector('.popup__avatar').src = element.author.avatar;
     return addCard;
   };
+
+  mainPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var moveMouseHendler = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      window.map.setCoords();
+    };
+
+    var upMouseHendler = function (upEvt) {
+      upEvt.preventDefault();
+      window.data.map.removeEventListener('mousemove', moveMouseHendler);
+      document.removeEventListener('mouseup', upMouseHendler);
+    };
+    window.data.map.addEventListener('mousemove', moveMouseHendler);
+    document.addEventListener('mouseup', upMouseHendler);
+  });
 
   window.card = {
     renderAddCard: renderAddCard,
