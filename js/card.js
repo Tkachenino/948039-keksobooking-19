@@ -53,10 +53,8 @@
       x: evt.clientX,
       y: evt.clientY
     };
-
     var moveMouseHendler = function (moveEvt) {
       moveEvt.preventDefault();
-
       var shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
@@ -66,9 +64,16 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
-
-      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
-      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      if (moveEvt.clientY <= 120 || moveEvt.clientY >= 630) {
+        mainPin.style.top = moveEvt.clientY;
+      } else {
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      }
+      if (moveEvt.clientX >= 1980 || moveEvt.clientX <= 870) {
+        mainPin.style.left = moveEvt.clientX;
+      } else {
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      }
       window.map.setCoords();
     };
 
