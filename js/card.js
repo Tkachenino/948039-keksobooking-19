@@ -69,7 +69,7 @@
       } else {
         mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
       }
-      if (moveEvt.clientX >= 1980 || moveEvt.clientX <= 870) {
+      if (moveEvt.clientX <= (document.querySelector('.map__pins').getBoundingClientRect().left + mainPin.clientWidth) || (moveEvt.clientX >= document.querySelector('.map__pins').getBoundingClientRect().right - mainPin.clientWidth)) {
         mainPin.style.left = moveEvt.clientX;
       } else {
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
