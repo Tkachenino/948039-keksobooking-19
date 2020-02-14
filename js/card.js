@@ -19,6 +19,12 @@
     }
   };
   var mainPin = document.querySelector('.map__pin--main');
+  var eadgeMap = {
+    top: window.data.map.getBoundingClientRect().top + mainPin.clientHeight,
+    bottom: window.data.map.getBoundingClientRect().bottom - mainPin.clientHeight,
+    left: window.data.map.getBoundingClientRect().left + mainPin.clientWidth,
+    right: window.data.map.getBoundingClientRect().right - mainPin.clientWidth,
+  };
 
   var createFeature = function (element) {
     var newFeatures = document.createDocumentFragment();
@@ -64,12 +70,12 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
-      if (moveEvt.clientY <= 120 || moveEvt.clientY >= 630) {
+      if (moveEvt.clientY <= eadgeMap.top || moveEvt.clientY >= eadgeMap.bottom) {
         mainPin.style.top = moveEvt.clientY;
       } else {
         mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
       }
-      if (moveEvt.clientX <= (document.querySelector('.map__pins').getBoundingClientRect().left + mainPin.clientWidth) || (moveEvt.clientX >= document.querySelector('.map__pins').getBoundingClientRect().right - mainPin.clientWidth)) {
+      if (moveEvt.clientX <= eadgeMap.left || moveEvt.clientX >= eadgeMap.right) {
         mainPin.style.left = moveEvt.clientX;
       } else {
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
