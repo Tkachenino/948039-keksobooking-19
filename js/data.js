@@ -12,7 +12,6 @@
   var pin = document.querySelector('.map__pin');
   var pinWidth = pin.clientWidth;
   var pinHeight = pin.clientHeight;
-
   var buildAdd = function (array) {
     array.push({
       author: {
@@ -32,8 +31,8 @@
         photos: 'http://o0.github.io/assets/images/tokyo/hotel1.jpg'
       },
       location: {
-        x: getRandom(pinWidth, mapWidth) - pinWidth,
-        y: getRandom(130, 630) - pinHeight
+        x: (getRandom(pinWidth, mapWidth) - pinWidth),
+        y: (getRandom(130, 630) - pinHeight)
       }
     });
   };
@@ -44,6 +43,8 @@
 
   window.data = {
     addArr: addArr,
-    map: map
+    map: map,
+    pinWidth: pinWidth,
+    pinHeight: pinHeight
   };
 })();

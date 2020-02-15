@@ -1,7 +1,6 @@
 'use strict';
 (function () {
   var similarAddPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-
   var renderAddPin = function (element) {
     var AddPin = similarAddPinTemplate.cloneNode(true);
     AddPin.style = 'left:' + element.location.x + 'px; top:' + element.location.y + 'px;';
