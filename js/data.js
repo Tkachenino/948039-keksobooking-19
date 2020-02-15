@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var MIN_Y_MAP = 130;
+  var MAX_Y_MAP = 630;
   var numberOfAdd = 8;
   var addArr = [];
   var titles = ['Уютное гнездышко для молодоженов', 'Маленькая квартирка рядом с парком', 'Небольшая лавочка в парке', 'Императорский дворец в центре Токио'];
@@ -8,10 +10,10 @@
   };
 
   var map = document.querySelector('.map__pins');
-  var mapWidth = map.offsetWidth;
+  var mapWidth = parseInt(map.offsetWidth, 10);
   var pin = document.querySelector('.map__pin');
-  var pinWidth = pin.clientWidth;
-  var pinHeight = pin.clientHeight;
+  var pinWidth = parseInt(pin.clientWidth, 10);
+  var pinHeight = parseInt(pin.clientHeight, 10);
   var buildAdd = function (array) {
     array.push({
       author: {
@@ -31,8 +33,8 @@
         photos: 'http://o0.github.io/assets/images/tokyo/hotel1.jpg'
       },
       location: {
-        x: (getRandom(pinWidth, mapWidth) - pinWidth),
-        y: (getRandom(130, 630) - pinHeight)
+        x: getRandom(pinWidth, (mapWidth - pinWidth)),
+        y: getRandom((MIN_Y_MAP - pinHeight), (MAX_Y_MAP - pinHeight))
       }
     });
   };
@@ -44,7 +46,11 @@
   window.data = {
     addArr: addArr,
     map: map,
+    pin: pin,
+    mapWidth: mapWidth,
     pinWidth: pinWidth,
-    pinHeight: pinHeight
+    pinHeight: pinHeight,
+    MIN_Y_MAP: MIN_Y_MAP,
+    MAX_Y_MAP: MAX_Y_MAP
   };
 })();

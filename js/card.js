@@ -1,3 +1,4 @@
+
 'use strict';
 (function () {
   var typeOfPlace = {
@@ -18,12 +19,14 @@
       cost: 5000
     }
   };
+
   var mainPin = document.querySelector('.map__pin--main');
+
   var eadgeMap = {
-    top: window.data.map.getBoundingClientRect().top + mainPin.clientHeight,
-    bottom: window.data.map.getBoundingClientRect().bottom - mainPin.clientHeight,
-    left: window.data.map.getBoundingClientRect().left + mainPin.clientWidth,
-    right: window.data.map.getBoundingClientRect().right - mainPin.clientWidth,
+    top: window.data.MIN_Y_MAP - parseInt(window.data.pinHeight, 10),
+    bottom: window.data.MAX_Y_MAP,
+    left: -parseInt(window.data.pinWidth / 2, 10),
+    right: parseInt(window.data.mapWidth - window.data.pinWidth / 2, 10)
   };
 
   var createFeature = function (element) {
@@ -54,7 +57,6 @@
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -70,15 +72,19 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
-      if (moveEvt.clientY <= eadgeMap.top || moveEvt.clientY >= eadgeMap.bottom) {
-        mainPin.style.top = moveEvt.clientY;
-      } else {
-        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+
+      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+
+      if (parseInt(mainPin.style.top, 10) < eadgeMap.top) {
+        mainPin.style.top = (eadgeMap.top + 'px');
+      } else if (parseInt(mainPin.style.top, 10) > eadgeMap.bottom) {
+        mainPin.style.top = (eadgeMap.bottom + 'px');
       }
-      if (moveEvt.clientX <= eadgeMap.left || moveEvt.clientX >= eadgeMap.right) {
-        mainPin.style.left = moveEvt.clientX;
-      } else {
-        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      if (parseInt(mainPin.style.left, 10) < eadgeMap.left) {
+        mainPin.style.left = (eadgeMap.left + 'px');
+      } else if (parseInt(mainPin.style.left, 10) > eadgeMap.right) {
+        mainPin.style.left = (eadgeMap.right + 'px');
       }
       window.map.setCoords();
     };
