@@ -54,8 +54,7 @@
       window.data.map.removeChild(document.querySelector('.map__card'));
     }
   };
-
-  window.load(function (info) {
+  var successHandler = function (info) {
     info.forEach(function (currentItem) {
       var pinClone = window.pin.renderAddPin(currentItem);
       var openPopup = function () {
@@ -74,7 +73,21 @@
       pinClone.addEventListener('click', openPopup);
       basketForPin.appendChild(pinClone);
     });
-  });
+  };
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: #ff5635;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.load(successHandler, errorHandler);
 
   window.map = {
     setCoords: setCoords
