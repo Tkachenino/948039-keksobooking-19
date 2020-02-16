@@ -40,6 +40,20 @@
     return newFeatures;
   };
 
+  var createImage = function (element) {
+    var newImages = document.createDocumentFragment();
+    element.offer.photos.forEach(function (currentIndex) {
+      var newImage = document.createElement('img');
+      newImage.classList.add('popup__photo');
+      newImage.width = 45;
+      newImage.width = 40;
+      newImage.alt = 'Фотография жилья';
+      newImage.src = currentIndex;
+      newImages.appendChild(newImage);
+    });
+    return newImages;
+  };
+
   var similarAdddCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var renderAddCard = function (element) {
     var addCard = similarAdddCardTemplate.cloneNode(true);
@@ -50,7 +64,7 @@
     addCard.querySelector('.popup__text--capacity').innerHTML = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
     addCard.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
     addCard.querySelector('.popup__features').appendChild(createFeature(element));
-    addCard.querySelector('.popup__photos').querySelector('img').src = element.offer.photos;
+    addCard.querySelector('.popup__photos').appendChild(createImage(element));
     addCard.querySelector('.popup__avatar').src = element.author.avatar;
     return addCard;
   };

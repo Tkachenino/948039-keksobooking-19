@@ -55,23 +55,25 @@
     }
   };
 
-  window.data.addArr.forEach(function (currentItem) {
-    var pinClone = window.pin.renderAddPin(currentItem);
-    var openPopup = function () {
-      var getInfoTurgetCard = window.card.renderAddCard(currentItem);
-      if (document.querySelector('.map__card')) {
-        window.data.map.removeChild(document.querySelector('.map__card'));
-      }
-      window.data.map.appendChild(getInfoTurgetCard);
-      document.addEventListener('keydown', pressClosePopupHendler);
+  window.load(function (info) {
+    info.forEach(function (currentItem) {
+      var pinClone = window.pin.renderAddPin(currentItem);
+      var openPopup = function () {
+        var getInfoTurgetCard = window.card.renderAddCard(currentItem);
+        if (document.querySelector('.map__card')) {
+          window.data.map.removeChild(document.querySelector('.map__card'));
+        }
+        window.data.map.appendChild(getInfoTurgetCard);
+        document.addEventListener('keydown', pressClosePopupHendler);
 
-      getInfoTurgetCard.querySelector('.popup__close').addEventListener('click', function () {
-        document.removeEventListener('keydown', pressClosePopupHendler);
-        window.data.map.removeChild(getInfoTurgetCard);
-      });
-    };
-    pinClone.addEventListener('click', openPopup);
-    basketForPin.appendChild(pinClone);
+        getInfoTurgetCard.querySelector('.popup__close').addEventListener('click', function () {
+          document.removeEventListener('keydown', pressClosePopupHendler);
+          window.data.map.removeChild(getInfoTurgetCard);
+        });
+      };
+      pinClone.addEventListener('click', openPopup);
+      basketForPin.appendChild(pinClone);
+    });
   });
 
   window.map = {
