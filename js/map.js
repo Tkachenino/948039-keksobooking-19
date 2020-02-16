@@ -63,7 +63,8 @@
 
   var mainPin = document.querySelector('.map__pin--main');
   var setCoords = function () {
-    document.querySelector('#address').value = mainPin.style.left + ' ' + mainPin.style.top;
+    document.querySelector('#address').value = parseInt(String(mainPin.style.left).replace('px', ''), 10) + parseInt(window.data.pinWidth / 2, 10) + ' '
+     + (parseInt(String(mainPin.style.top).replace('px', ''), 10) + parseInt((window.data.pinHeight), 10));
   };
   setCoords();
   var resetDisableMap = function () {
