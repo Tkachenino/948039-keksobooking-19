@@ -1,3 +1,4 @@
+
 'use strict';
 (function () {
   var typeOfPlace = {
@@ -18,12 +19,14 @@
       cost: 5000
     }
   };
+
   var mainPin = document.querySelector('.map__pin--main');
+
   var eadgeMap = {
-    top: window.data.map.getBoundingClientRect().top + mainPin.clientHeight,
-    bottom: window.data.map.getBoundingClientRect().bottom - mainPin.clientHeight,
-    left: window.data.map.getBoundingClientRect().left + mainPin.clientWidth,
-    right: window.data.map.getBoundingClientRect().right - mainPin.clientWidth,
+    top: window.data.MIN_Y_MAP - parseInt(window.data.pinHeight, 10),
+    bottom: window.data.MAX_Y_MAP,
+    left: -parseInt(window.data.pinWidth / 2, 10),
+    right: parseInt(window.data.mapWidth - window.data.pinWidth / 2, 10)
   };
 
   var createFeature = function (element) {
@@ -37,6 +40,20 @@
     return newFeatures;
   };
 
+  var createImage = function (element) {
+    var newImages = document.createDocumentFragment();
+    element.offer.photos.forEach(function (currentIndex) {
+      var newImage = document.createElement('img');
+      newImage.classList.add('popup__photo');
+      newImage.width = 45;
+      newImage.width = 40;
+      newImage.alt = 'Фотография жилья';
+      newImage.src = currentIndex;
+      newImages.appendChild(newImage);
+    });
+    return newImages;
+  };
+
   var similarAdddCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var renderAddCard = function (element) {
     var addCard = similarAdddCardTemplate.cloneNode(true);
@@ -47,14 +64,13 @@
     addCard.querySelector('.popup__text--capacity').innerHTML = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
     addCard.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
     addCard.querySelector('.popup__features').appendChild(createFeature(element));
-    addCard.querySelector('.popup__photos').querySelector('img').src = element.offer.photos;
+    addCard.querySelector('.popup__photos').appendChild(createImage(element));
     addCard.querySelector('.popup__avatar').src = element.author.avatar;
     return addCard;
   };
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -70,15 +86,19 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
-      if (moveEvt.clientY <= eadgeMap.top || moveEvt.clientY >= eadgeMap.bottom) {
-        mainPin.style.top = moveEvt.clientY;
-      } else {
-        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+
+      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+
+      if (parseInt(mainPin.style.top, 10) < eadgeMap.top) {
+        mainPin.style.top = (eadgeMap.top + 'px');
+      } else if (parseInt(mainPin.style.top, 10) > eadgeMap.bottom) {
+        mainPin.style.top = (eadgeMap.bottom + 'px');
       }
-      if (moveEvt.clientX <= eadgeMap.left || moveEvt.clientX >= eadgeMap.right) {
-        mainPin.style.left = moveEvt.clientX;
-      } else {
-        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      if (parseInt(mainPin.style.left, 10) < eadgeMap.left) {
+        mainPin.style.left = (eadgeMap.left + 'px');
+      } else if (parseInt(mainPin.style.left, 10) > eadgeMap.right) {
+        mainPin.style.left = (eadgeMap.right + 'px');
       }
       window.map.setCoords();
     };
