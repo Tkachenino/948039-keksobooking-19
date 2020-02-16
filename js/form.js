@@ -57,4 +57,8 @@
   userTimeOut.addEventListener('change', function () {
     userTimeIn.value = userTimeOut.value;
   });
+
+  window.form = {
+    formSection: formSection
+  };
 })();

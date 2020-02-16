@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var basketForPin = document.createDocumentFragment();
-
+  var sectionMap = document.querySelector('.map');
   var setDisabled = function (allSelector) {
     allSelector.forEach(function (index) {
       index.setAttribute('disabled', 'true');
@@ -55,11 +55,16 @@
 
 
   var fieldsetToAdForm = document.querySelectorAll('.ad-form fieldset');
-  setDisabled(fieldsetToAdForm);
   var fieldsetToMapFilter = document.querySelectorAll('.map__filters fieldset');
-  setDisabled(fieldsetToMapFilter);
   var selectorToMapFilter = document.querySelectorAll('.map__filters select');
-  setDisabled(selectorToMapFilter);
+
+  var setDisableMap = function () {
+    setDisabled(fieldsetToAdForm);
+    setDisabled(fieldsetToMapFilter);
+    setDisabled(selectorToMapFilter);
+  };
+
+  setDisableMap();
 
   var mainPin = document.querySelector('.map__pin--main');
   var setCoords = function () {
@@ -68,21 +73,21 @@
   };
   setCoords();
   var resetDisableMap = function () {
-    document.querySelector('.map').classList.remove('map--faded');
-    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+    sectionMap.classList.remove('map--faded');
+    window.form.formSection.classList.remove('ad-form--disabled');
     window.load(successHandler, errorHandler);
     resetDisabled(fieldsetToAdForm);
     resetDisabled(fieldsetToMapFilter);
     resetDisabled(selectorToMapFilter);
   };
   mainPin.addEventListener('mousedown', function (evt) {
-    if (evt.button === 0 && document.querySelector('.map').classList.contains('map--faded')) {
+    if (evt.button === 0 && sectionMap.classList.contains('map--faded')) {
       resetDisableMap();
     }
   });
 
   mainPin.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter' && document.querySelector('.map').classList.contains('map--faded')) {
+    if (evt.key === 'Enter' && sectionMap.classList.contains('map--faded')) {
       resetDisableMap();
     }
   });
@@ -90,4 +95,20 @@
   window.map = {
     setCoords: setCoords
   };
+
+  var cleanPins = function () {
+    while (document.querySelector('.map__pin:not(.map__pin--main)')) {
+      document.querySelector('.map__pin:not(.map__pin--main)').remove();
+    }
+  };
+
+  window.form.formSection.addEventListener('submit', function (evt) {
+    window.upload(new FormData(window.form.formSection), function () {
+      sectionMap.classList.add('map--faded');
+      window.form.formSection.classList.add('ad-form--disabled');
+      setDisableMap();
+      cleanPins();
+    });
+    evt.preventDefault();
+  });
 })();
