@@ -96,6 +96,11 @@
     window.form.formSection.querySelector('input[type=text]').value = '';
     window.form.formSection.querySelector('input[type=number]').value = '';
     window.form.formSection.querySelector('textarea').value = '';
+    window.form.formSection.querySelector('#type').selectedIndex = 1;
+    window.form.formSection.querySelector('#timein').selectedIndex = 0;
+    window.form.formSection.querySelector('#timeout').selectedIndex = 0;
+    window.form.formSection.querySelector('#room_number').selectedIndex = 0;
+    window.form.formSection.querySelector('#capacity').selectedIndex = 2;
     mainPin.style = 'left: 570px; top: 375px';
     setCoords();
   };
@@ -129,7 +134,6 @@
       window.form.formSection.classList.add('ad-form--disabled');
       setDisableMap();
       cleanPins();
-      cleanForm();
       document.querySelector('main').appendChild(createErrorWindows(massageError));
       document.addEventListener('keydown', pressCloseErrorWinHendler);
       document.addEventListener('click', pressCloseErrorWinHendler);
