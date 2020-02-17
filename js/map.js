@@ -86,14 +86,18 @@
     }
   });
 
-  window.map = {
-    setCoords: setCoords
-  };
-
   var cleanPins = function () {
     while (document.querySelector('.map__pin:not(.map__pin--main)')) {
       document.querySelector('.map__pin:not(.map__pin--main)').remove();
     }
+  };
+
+  var cleanForm = function () {
+    window.form.formSection.querySelector('input[type=text]').value = '';
+    window.form.formSection.querySelector('input[type=number]').value = '';
+    window.form.formSection.querySelector('textarea').value = '';
+    mainPin.style = 'left: 570px; top: 375px';
+    setCoords();
   };
 
   var successWindowTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -108,12 +112,14 @@
     errorWindow.querySelector('.error__message').innerHTML = massageError;
     return errorWindow;
   };
+
   window.form.formSection.addEventListener('submit', function (evt) {
     window.upload(new FormData(window.form.formSection), function () {
       sectionMap.classList.add('map--faded');
       window.form.formSection.classList.add('ad-form--disabled');
       setDisableMap();
       cleanPins();
+      cleanForm();
       sectionMap.appendChild(createSuccessWindows());
       document.addEventListener('keydown', pressCloseSuccsesWinHendler);
       document.addEventListener('click', pressCloseSuccsesWinHendler);
@@ -123,6 +129,7 @@
       window.form.formSection.classList.add('ad-form--disabled');
       setDisableMap();
       cleanPins();
+      cleanForm();
       document.querySelector('main').appendChild(createErrorWindows(massageError));
       document.addEventListener('keydown', pressCloseErrorWinHendler);
       document.addEventListener('click', pressCloseErrorWinHendler);
@@ -141,9 +148,22 @@
   var pressCloseErrorWinHendler = function (evt) {
     if (evt.key === 'Escape' || evt.button === 0) {
       document.querySelector('main').removeChild(document.querySelector('.error'));
-
       document.removeEventListener('keydown', pressCloseErrorWinHendler);
       document.removeEventListener('click', pressCloseErrorWinHendler);
     }
+  };
+
+  document.querySelector('.ad-form__reset').addEventListener('keydown', pressResetHendler);
+  document.querySelector('.ad-form__reset').addEventListener('click', pressResetHendler);
+
+  var pressResetHendler = function (evt) {
+    if (evt.button === 0) {
+      cleanForm();
+    }
+    evt.preventDefault();
+  };
+
+  window.map = {
+    setCoords: setCoords
   };
 })();
