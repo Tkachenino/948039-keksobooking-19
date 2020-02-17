@@ -21,15 +21,9 @@
   };
 
   var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: #ff5635;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    document.querySelector('main').appendChild(createErrorWindows(errorMessage));
+    document.querySelector('.error__button').addEventListener('keydown', pressCloseErrorWinHendler);
+    document.querySelector('.error__button').addEventListener('click', pressCloseErrorWinHendler);
   };
 
   var successHandler = (function (info) {
@@ -68,7 +62,7 @@
 
   var mainPin = document.querySelector('.map__pin--main');
   var setCoords = function () {
-    document.querySelector('#address').value = parseInt(String(mainPin.style.left).replace('px', ''), 10) + parseInt(window.data.pinWidth / 2, 10) + ' '
+    document.querySelector('#address').value = parseInt(String(mainPin.style.left).replace('px', ''), 10) + parseInt(window.data.pinWidth / 2, 10) + ', '
      + (parseInt(String(mainPin.style.top).replace('px', ''), 10) + parseInt((window.data.pinHeight), 10));
   };
   setCoords();
@@ -102,13 +96,54 @@
     }
   };
 
+  var successWindowTemplate = document.querySelector('#success').content.querySelector('.success');
+  var createSuccessWindows = function () {
+    var successWindow = successWindowTemplate.cloneNode(true);
+    return successWindow;
+  };
+
+  var errorWindowTemplate = document.querySelector('#error').content.querySelector('.error');
+  var createErrorWindows = function (massageError) {
+    var errorWindow = errorWindowTemplate.cloneNode(true);
+    errorWindow.querySelector('.error__message').innerHTML = massageError;
+    return errorWindow;
+  };
   window.form.formSection.addEventListener('submit', function (evt) {
     window.upload(new FormData(window.form.formSection), function () {
       sectionMap.classList.add('map--faded');
       window.form.formSection.classList.add('ad-form--disabled');
       setDisableMap();
       cleanPins();
+      sectionMap.appendChild(createSuccessWindows());
+      document.addEventListener('keydown', pressCloseSuccsesWinHendler);
+      document.addEventListener('click', pressCloseSuccsesWinHendler);
+    },
+    function (massageError) {
+      sectionMap.classList.add('map--faded');
+      window.form.formSection.classList.add('ad-form--disabled');
+      setDisableMap();
+      cleanPins();
+      document.querySelector('main').appendChild(createErrorWindows(massageError));
+      document.addEventListener('keydown', pressCloseErrorWinHendler);
+      document.addEventListener('click', pressCloseErrorWinHendler);
     });
     evt.preventDefault();
   });
+
+  var pressCloseSuccsesWinHendler = function (evt) {
+    if (evt.key === 'Escape' || evt.button === 0) {
+      sectionMap.removeChild(document.querySelector('.success'));
+      document.removeEventListener('keydown', pressCloseSuccsesWinHendler);
+      document.removeEventListener('click', pressCloseSuccsesWinHendler);
+    }
+  };
+
+  var pressCloseErrorWinHendler = function (evt) {
+    if (evt.key === 'Escape' || evt.button === 0) {
+      document.querySelector('main').removeChild(document.querySelector('.error'));
+
+      document.removeEventListener('keydown', pressCloseErrorWinHendler);
+      document.removeEventListener('click', pressCloseErrorWinHendler);
+    }
+  };
 })();

@@ -30,12 +30,26 @@
     xhr.send();
   };
   var URL_UPLOAD = 'https://js.dump.academy/keksobooking';
-  window.upload = function (data, onSuccess) {
+  window.upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      onSuccess(xhr.response);
+      switch (xhr.status) {
+        case 200:
+          onSuccess(xhr.response);
+          break;
+        default:
+          onError();
+          break;
+      }
     });
+    xhr.addEventListener('error', function () {
+      onError('Произошла ошибка соединения. Проверьте подключение к интернету.');
+    });
+    xhr.addEventListener('timeout', function () {
+      onError('Запрос не успел выполнитлься за ' + xhr.timeout + 'ms, попробуйте снова');
+    });
+    xhr.timeout = 2000;
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
   };
