@@ -93,14 +93,7 @@
   };
 
   var cleanForm = function () {
-    window.form.formSection.querySelector('input[type=text]').value = '';
-    window.form.formSection.querySelector('input[type=number]').value = '';
-    window.form.formSection.querySelector('textarea').value = '';
-    window.form.formSection.querySelector('#type').selectedIndex = 1;
-    window.form.formSection.querySelector('#timein').selectedIndex = 0;
-    window.form.formSection.querySelector('#timeout').selectedIndex = 0;
-    window.form.formSection.querySelector('#room_number').selectedIndex = 0;
-    window.form.formSection.querySelector('#capacity').selectedIndex = 2;
+    window.form.formSection.reset();
     mainPin.style = 'left: 570px; top: 375px';
     setCoords();
   };
@@ -157,15 +150,8 @@
     }
   };
 
-  document.querySelector('.ad-form__reset').addEventListener('keydown', pressResetHendler);
-  document.querySelector('.ad-form__reset').addEventListener('click', pressResetHendler);
-
-  var pressResetHendler = function (evt) {
-    if (evt.button === 0) {
-      cleanForm();
-    }
-    evt.preventDefault();
-  };
+  document.querySelector('.ad-form__reset').addEventListener('keydown', cleanForm);
+  document.querySelector('.ad-form__reset').addEventListener('click', cleanForm);
 
   window.map = {
     setCoords: setCoords
