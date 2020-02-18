@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var BEGIN_COORDS_PIN = 'left: 570px; top: 375px';
   var basketForPin = document.createDocumentFragment();
   var sectionMap = document.querySelector('.map');
   var setDisabled = function (allSelector) {
@@ -94,8 +95,8 @@
 
   var cleanForm = function () {
     window.form.formSection.reset();
-    mainPin.style = 'left: 570px; top: 375px';
-    window.form.formSection.querySelector('#price').placeholder = '1000';
+    mainPin.style = BEGIN_COORDS_PIN;
+    window.form.setCostForAppart(window.form.userAppart, window.form.userPrice);
     setCoords();
   };
 

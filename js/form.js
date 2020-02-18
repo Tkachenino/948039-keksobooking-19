@@ -59,6 +59,9 @@
   });
 
   window.form = {
-    formSection: formSection
+    formSection: formSection,
+    setCostForAppart: setCostForAppart,
+    userPrice: userPrice,
+    userAppart: userAppart
   };
 })();
