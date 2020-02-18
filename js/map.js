@@ -95,6 +95,7 @@
   var cleanForm = function () {
     window.form.formSection.reset();
     mainPin.style = 'left: 570px; top: 375px';
+    window.form.formSection.querySelector('#price').placeholder = '1000';
     setCoords();
   };
 
@@ -123,10 +124,6 @@
       document.addEventListener('click', pressCloseSuccsesWinHendler);
     },
     function (massageError) {
-      sectionMap.classList.add('map--faded');
-      window.form.formSection.classList.add('ad-form--disabled');
-      setDisableMap();
-      cleanPins();
       document.querySelector('main').appendChild(createErrorWindows(massageError));
       document.addEventListener('keydown', pressCloseErrorWinHendler);
       document.addEventListener('click', pressCloseErrorWinHendler);
