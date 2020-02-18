@@ -150,8 +150,15 @@
     }
   };
 
-  document.querySelector('.ad-form__reset').addEventListener('keydown', cleanForm);
-  document.querySelector('.ad-form__reset').addEventListener('click', cleanForm);
+  var pressResetHendler = function (evt) {
+    if (evt.button === 0 || evt.key === 'Enter') {
+      cleanForm();
+    }
+    evt.preventDefault();
+  };
+
+  document.querySelector('.ad-form__reset').addEventListener('keydown', pressResetHendler);
+  document.querySelector('.ad-form__reset').addEventListener('click', pressResetHendler);
 
   window.map = {
     setCoords: setCoords
