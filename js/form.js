@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  // Проверка валидации соотношения гостей и комнат
   var sectionGuest = document.querySelector('#capacity');
   var sectionRoom = document.querySelector('#room_number');
   var formSection = document.querySelector('.ad-form');
@@ -12,10 +13,10 @@
     } else {
       sectionRoom.setCustomValidity('Опачки, ошибка');
     }
-
   };
-  formSection.addEventListener('click', checkValidityHendler);
 
+  formSection.addEventListener('click', checkValidityHendler);
+  // Проверка валидации заголовка обьявления на длину
   var userTitle = document.querySelector('#title');
   userTitle.addEventListener('invalid', function () {
     if (userTitle.validity.tooShort) {
@@ -28,26 +29,25 @@
       userTitle.setCustomValidity('');
     }
   });
-
+  // Установка зависимости цены аренды от типа жилья
   var userPrice = document.querySelector('#price');
   var userAppart = document.querySelector('#type');
 
   var setCostForAppart = function (appart, cost) {
-    cost.setAttribute('min', window.card.typeOfPlace[appart.value].cost);
-    cost.setAttribute('placeholder', window.card.typeOfPlace[appart.value].cost);
+    cost.setAttribute('min', window.card.typeOfPlaceMap[appart.value].cost);
+    cost.setAttribute('placeholder', window.card.typeOfPlaceMap[appart.value].cost);
   };
 
   formSection.addEventListener('change', function () {
     setCostForAppart(userAppart, userPrice);
   });
-
+  // Ограничение типов файлов для загрузки
   document.querySelector('#avatar').setAttribute('accept', 'image/png, image/jpeg');
   document.querySelector('#images').setAttribute('accept', 'image/png, image/jpeg');
-
-
+  // Ограничение на ввод данных в адресную строку
   var userAddress = document.querySelector('#address');
   userAddress.setAttribute('readonly', true);
-
+  // Установка зависимости на время заселения и выселения
   var userTimeIn = document.querySelector('#timein');
   var userTimeOut = document.querySelector('#timeout');
 
