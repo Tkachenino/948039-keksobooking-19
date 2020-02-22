@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  // Функция для отрисовки pin
   var similarAddPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var renderAddPin = function (element) {
     var AddPin = similarAddPinTemplate.cloneNode(true);
