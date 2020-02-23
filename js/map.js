@@ -102,7 +102,7 @@
   };
   // Функция отрисовки pins при удачной загрузке данных
   var successHandler = function (info) {
-    newData = info;
+    window.map.newData = info;
     info = info.slice(0, amountOfPins);
     info.forEach(function (currentItem) {
       var pinClone = window.pin.renderAddPin(currentItem);
@@ -172,75 +172,10 @@
       document.removeEventListener('click', pressCloseErrorWinHendler);
     }
   };
-  // Функция отрисовки pins с использованием фильров
-  var filterMap = function () {
-    // Отбор pins по типу жилья
-    if (document.querySelector('.map__filters').querySelector('#housing-type').value === 'any') {
-      filterDataType = newData;
-    } else {
-      filterDataType = newData.filter(function (dataItem) {
-        return dataItem.offer.type === document.querySelector('.map__filters').querySelector('#housing-type').value;
-      });
-    }
-    // Отбор pins по цене за жилье
-    if (document.querySelector('.map__filters').querySelector('#housing-price').value === 'any') {
-      filterDataCost = newData;
-    } else if (document.querySelector('.map__filters').querySelector('#housing-price').value === 'low') {
-      filterDataCost = newData.filter(function (dataItem) {
-        return (dataItem.offer.price < 10000);
-      });
-    } else if (document.querySelector('.map__filters').querySelector('#housing-price').value === 'high') {
-      filterDataCost = newData.filter(function (dataItem) {
-        return (dataItem.offer.price > 50000);
-      });
-    } else {
-      filterDataCost = newData.filter(function (dataItem) {
-        return (dataItem.offer.price >= 10000 && dataItem.offer.price <= 50000);
-      });
-    }
-    // Отбор pins по кол. комнат
-    if (document.querySelector('.map__filters').querySelector('#housing-rooms').value === 'any') {
-      filterDataRoom = newData;
-    } else if (document.querySelector('.map__filters').querySelector('#housing-rooms').value === '1') {
-      filterDataRoom = newData.filter(function (dataItem) {
-        return (dataItem.offer.rooms === 1);
-      });
-    } else if (document.querySelector('.map__filters').querySelector('#housing-rooms').value === '2') {
-      filterDataRoom = newData.filter(function (dataItem) {
-        return (dataItem.offer.rooms === 2);
-      });
-    } else {
-      filterDataRoom = newData.filter(function (dataItem) {
-        return (dataItem.offer.rooms === 3);
-      });
-    }
-
-    filterDataForAll = filterDataType.concat(filterDataCost);
-    var uniqueData = filterDataForAll.filter(function (it, i) {
-      return filterDataForAll.indexOf(it) !== i;
-    }).slice(0, amountOfPins);
-
-    uniqueData.forEach(function (currentItem) {
-      var pinClone = window.pin.renderAddPin(currentItem);
-      var openPopup = function () {
-        var getInfoTurgetCard = window.card.renderAddCard(currentItem);
-        controlCard(getInfoTurgetCard);
-      };
-      pinClone.addEventListener('click', openPopup);
-      basketForPin.appendChild(pinClone);
-    });
-    window.data.mapPins.appendChild(basketForPin);
-  };
-  // Слушатель на отрисовку pins по изменению фильтра
-  document.querySelector('.map__filters').addEventListener('change', function () {
-    cleanPins();
-    if (document.querySelector('.map__card')) {
-      window.data.mapPins.removeChild(document.querySelector('.map__card'));
-    }
-    filterMap();
-  });
 
   window.map = {
-    setCoords: setCoords
+    setCoords: setCoords,
+    cleanPins: cleanPins,
+    controlCard: controlCard
   };
 })();
