@@ -8,7 +8,10 @@
   var selectorToMapFilter = document.querySelectorAll('.map__filters select');
   var mainPin = document.querySelector('.map__pin--main');
   var newData = [];
-  var filterData = [];
+  var filterDataType = [];
+  var filterDataCost = [];
+  var filterDataRoom = [];
+  var filterDataForAll = [];
   var amountOfPins = 5;
   // Функция для добавления атрибута disabled
   var setDisabled = function (allSelector) {
@@ -99,7 +102,7 @@
   };
   // Функция отрисовки pins при удачной загрузке данных
   var successHandler = function (info) {
-    newData = info;
+    window.map.newData = info;
     info = info.slice(0, amountOfPins);
     info.forEach(function (currentItem) {
       var pinClone = window.pin.renderAddPin(currentItem);
@@ -169,36 +172,10 @@
       document.removeEventListener('click', pressCloseErrorWinHendler);
     }
   };
-  // Функция отрисовки pins с использованием фильров
-  var filterMap = function () {
-    if (document.querySelector('.map__filters').querySelector('#housing-type').value === 'any') {
-      filterData = newData.slice(0, amountOfPins);
-    } else {
-      filterData = newData.filter(function (dataItem) {
-        return dataItem.offer.type === document.querySelector('.map__filters').querySelector('#housing-type').value;
-      }).slice(0, amountOfPins);
-    }
-    filterData.forEach(function (currentItem) {
-      var pinClone = window.pin.renderAddPin(currentItem);
-      var openPopup = function () {
-        var getInfoTurgetCard = window.card.renderAddCard(currentItem);
-        controlCard(getInfoTurgetCard);
-      };
-      pinClone.addEventListener('click', openPopup);
-      basketForPin.appendChild(pinClone);
-    });
-    window.data.mapPins.appendChild(basketForPin);
-  };
-  // Слушатель на отрисовку pins по изменению фильтра
-  document.querySelector('.map__filters').addEventListener('change', function () {
-    cleanPins();
-    if (document.querySelector('.map__card')) {
-      window.data.mapPins.removeChild(document.querySelector('.map__card'));
-    }
-    filterMap();
-  });
 
   window.map = {
-    setCoords: setCoords
+    setCoords: setCoords,
+    cleanPins: cleanPins,
+    controlCard: controlCard
   };
 })();
