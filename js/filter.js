@@ -115,12 +115,21 @@
       }
     };
 
+    // var getFilterDataChecked = function (data) {
+    //   if (document.querySelector('.map__filters').querySelector('#filter-' + data.offer.features[indexData]).checked) {
+    //     return data.offer.features.indexOf(data.offer.features[indexData]) !== -1;
+    //   } else {
+    //     return true;
+    //   }
+    // };
+
+
     unicData = window.map.newData
     .filter(getFilterDataType)
     .filter(getFilterDataCost)
     .filter(getFilterDataRoom)
     .filter(getFilterDataGuest)
-    // .filter(getFilterDataChecked)
+    // .filter(getFilterDataChecked);
     .filter(getFilterDataWiFi)
     .filter(getFilterDataDishwasher)
     .filter(getFilterDataParking)
@@ -128,6 +137,18 @@
     .filter(getFilterDataElevator)
     .filter(getFilterDataConditioner)
     .slice(0, amountOfPins);
+
+    // for (var indexData = 0; indexData < window.map.newData.offer.features.length; indexData++) {
+    //   var getFilterDataChecked = function (data) {
+    //     var featuresElement = document.querySelector('.map__filters').querySelector('#filter-' + data.offer.features[indexData]);
+    //     if (!featuresElement.checked) {
+    //       return true;
+    //     } else {
+    //       return data.offer.features.indexOf(data.offer.features[indexData]) !== -1;
+    //     }
+    //   };
+    //   unicData = unicData.filter(getFilterDataChecked);
+    // }
 
     unicData.forEach(function (currentItem) {
       var pinClone = window.pin.renderAddPin(currentItem);
