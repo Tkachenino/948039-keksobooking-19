@@ -1,9 +1,6 @@
 'use strict';
 (function () {
-  // var filterDataType = [];
-  // var filterDataCost = [];
-  // var filterDataRoom = [];
-  // var filterDataForAll = [];
+  var lastTimeout;
   var unicData = [];
   var amountOfPins = 5;
   var basketForPin = document.createDocumentFragment();
@@ -61,73 +58,75 @@
     //     return true;
     //   }
     // };
-    var getFilterDataChecked = function (data) {
-      if (document.querySelector('.map__filters').querySelector('#filter-' + event.target.value)) {
-        return data.offer.features.indexOf(event.target.value) !== -1;
+
+
+    // var getFilterDataChecked = function (data) {
+    //   if (document.querySelector('.map__filters').querySelector('#filter-' + event.target.value)) {
+    //     return data.offer.features.includes(event.target.value);
+    //   } else {
+    //     return true;
+    //   }
+    // };
+    var getFilterDataWiFi = function (data) {
+      if (document.querySelector('.map__filters').querySelector('#filter-wifi').checked) {
+        return data.offer.features.indexOf('wifi') !== -1;
       } else {
         return true;
       }
     };
-    // var getFilterDataWiFi = function (data) {
-    //   if (document.querySelector('.map__filters').querySelector('#filter-wifi').checked) {
-    //     return data.offer.features.indexOf('wifi') !== -1;
-    //   } else {
-    //     return true;
-    //   }
-    // };
 
-    // var getFilterDataDishwasher = function (data) {
-    //   if (document.querySelector('.map__filters').querySelector('#filter-dishwasher').checked) {
-    //     return data.offer.features.indexOf('dishwasher') !== -1;
-    //   } else {
-    //     return true;
-    //   }
-    // };
+    var getFilterDataDishwasher = function (data) {
+      if (document.querySelector('.map__filters').querySelector('#filter-dishwasher').checked) {
+        return data.offer.features.indexOf('dishwasher') !== -1;
+      } else {
+        return true;
+      }
+    };
 
-    // var getFilterDataParking = function (data) {
-    //   if (document.querySelector('.map__filters').querySelector('#filter-parking').checked) {
-    //     return data.offer.features.indexOf('parking') !== -1;
-    //   } else {
-    //     return true;
-    //   }
-    // };
+    var getFilterDataParking = function (data) {
+      if (document.querySelector('.map__filters').querySelector('#filter-parking').checked) {
+        return data.offer.features.indexOf('parking') !== -1;
+      } else {
+        return true;
+      }
+    };
 
-    // var getFilterDataWasher = function (data) {
-    //   if (document.querySelector('.map__filters').querySelector('#filter-washer').checked) {
-    //     return data.offer.features.indexOf('washer') !== -1;
-    //   } else {
-    //     return true;
-    //   }
-    // };
+    var getFilterDataWasher = function (data) {
+      if (document.querySelector('.map__filters').querySelector('#filter-washer').checked) {
+        return data.offer.features.indexOf('washer') !== -1;
+      } else {
+        return true;
+      }
+    };
 
-    // var getFilterDataElevator = function (data) {
-    //   if (document.querySelector('.map__filters').querySelector('#filter-elevator').checked) {
-    //     return data.offer.features.indexOf('elevator') !== -1;
-    //   } else {
-    //     return true;
-    //   }
-    // };
+    var getFilterDataElevator = function (data) {
+      if (document.querySelector('.map__filters').querySelector('#filter-elevator').checked) {
+        return data.offer.features.indexOf('elevator') !== -1;
+      } else {
+        return true;
+      }
+    };
 
-    // var getFilterDataConditioner = function (data) {
-    //   if (document.querySelector('.map__filters').querySelector('#filter-conditioner').checked) {
-    //     return data.offer.features.indexOf('conditioner') !== -1;
-    //   } else {
-    //     return true;
-    //   }
-    // };
+    var getFilterDataConditioner = function (data) {
+      if (document.querySelector('.map__filters').querySelector('#filter-conditioner').checked) {
+        return data.offer.features.indexOf('conditioner') !== -1;
+      } else {
+        return true;
+      }
+    };
 
     unicData = window.map.newData
     .filter(getFilterDataType)
     .filter(getFilterDataCost)
     .filter(getFilterDataRoom)
     .filter(getFilterDataGuest)
-    .filter(getFilterDataChecked)
-    // .filter(getFilterDataWiFi)
-    // .filter(getFilterDataDishwasher)
-    // .filter(getFilterDataParking)
-    // .filter(getFilterDataWasher)
-    // .filter(getFilterDataElevator)
-    // .filter(getFilterDataConditioner)
+    // .filter(getFilterDataChecked)
+    .filter(getFilterDataWiFi)
+    .filter(getFilterDataDishwasher)
+    .filter(getFilterDataParking)
+    .filter(getFilterDataWasher)
+    .filter(getFilterDataElevator)
+    .filter(getFilterDataConditioner)
     .slice(0, amountOfPins);
 
     unicData.forEach(function (currentItem) {
@@ -143,11 +142,15 @@
   };
 
   document.querySelector('.map__filters').addEventListener('change', function () {
-    window.map.cleanPins();
-    if (document.querySelector('.map__card')) {
-      window.data.mapPins.removeChild(document.querySelector('.map__card'));
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
     }
-    filterMap();
+    lastTimeout = setTimeout(function () {
+      window.map.cleanPins();
+      if (document.querySelector('.map__card')) {
+        window.data.mapPins.removeChild(document.querySelector('.map__card'));
+      }
+      filterMap();
+    }, 500);
   });
-
 })();
