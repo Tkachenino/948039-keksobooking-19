@@ -7,7 +7,7 @@
   var basketForPin = document.createDocumentFragment();
   var searchFeature = function () {
     document.querySelectorAll('#housing-features input[name="features"]').forEach(function (item) {
-      return item.checked ? offer.push(item.value) : true;
+      return !item.checked ? true : offer.push(item.value);
     });
   };
 
@@ -46,7 +46,7 @@
     .filter(getFilterDataRoom)
     .filter(getFilterDataGuest);
 
-    var filterByFeature = function (feature) {
+    var getFilterDataFeature = function (feature) {
       return function (data) {
         var featureElement = document.querySelector('.map__filters').querySelector('input[value = ' + feature + ']');
         return !featureElement.checked ? true : data.offer.features.includes(feature);
@@ -54,7 +54,7 @@
     };
 
     for (var featureIndex = 0; featureIndex < offer.length; featureIndex++) {
-      unicData = unicData.filter(filterByFeature(offer[featureIndex]));
+      unicData = unicData.filter(getFilterDataFeature(offer[featureIndex]));
     }
 
     unicData = unicData.slice(0, amountOfPins);
