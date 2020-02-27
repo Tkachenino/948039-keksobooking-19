@@ -6,6 +6,7 @@
   var avatar = document.querySelector('.ad-form-header__preview img');
   var fileChooserRoom = document.querySelector('.ad-form__upload input[type="file"]');
   var fieldForYourPhoto = document.querySelector('.ad-form__photo');
+  // Слушатель на загрузку фото аватара
   fileChooserAvatar.addEventListener('change', function () {
     var file = fileChooserAvatar.files[0];
     var reader = new FileReader();
@@ -14,7 +15,7 @@
     });
     reader.readAsDataURL(file);
   });
-
+  // Слушатель на загрузку фото комнаты
   fileChooserRoom.addEventListener('change', function () {
     var file = fileChooserRoom.files[0];
     var reader = new FileReader();
@@ -34,5 +35,4 @@
     });
     reader.readAsDataURL(file);
   });
-
 })();
