@@ -5,17 +5,17 @@
   var sectionRoom = document.querySelector('#room_number');
   var formSection = document.querySelector('.ad-form');
 
-  var checkValidityHendler = function () {
+  var validityCheckHendler = function () {
     if ((parseInt(sectionGuest.value, 10) <= parseInt(sectionRoom.value, 10)) && parseInt(sectionGuest.value, 10) !== 0 && parseInt(sectionRoom.value, 10) !== 100) {
       sectionRoom.setCustomValidity('');
     } else if (parseInt(sectionGuest.value, 10) === 0 && parseInt(sectionRoom.value, 10) === 100) {
       sectionRoom.setCustomValidity('');
     } else {
-      sectionRoom.setCustomValidity('Опачки, ошибка');
+      sectionRoom.setCustomValidity('Колличество гостей не может превышать колличество комнат');
     }
   };
 
-  formSection.addEventListener('click', checkValidityHendler);
+  formSection.addEventListener('click', validityCheckHendler);
   // Проверка валидации заголовка обьявления на длину
   var userTitle = document.querySelector('#title');
   userTitle.addEventListener('invalid', function () {
@@ -34,8 +34,8 @@
   var userAppart = document.querySelector('#type');
 
   var setCostForAppart = function (appart, cost) {
-    cost.setAttribute('min', window.card.typeOfPlaceMap[appart.value].cost);
-    cost.setAttribute('placeholder', window.card.typeOfPlaceMap[appart.value].cost);
+    cost.setAttribute('min', window.card.placeMap[appart.value].cost);
+    cost.setAttribute('placeholder', window.card.placeMap[appart.value].cost);
   };
 
   formSection.addEventListener('change', function () {
