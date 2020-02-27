@@ -7,11 +7,6 @@
   var fieldsetToMapFilter = document.querySelectorAll('.map__filters fieldset');
   var selectorToMapFilter = document.querySelectorAll('.map__filters select');
   var mainPin = document.querySelector('.map__pin--main');
-  var newData = [];
-  var filterDataType = [];
-  var filterDataCost = [];
-  var filterDataRoom = [];
-  var filterDataForAll = [];
   var amountOfPins = 5;
   // Функция для добавления атрибута disabled
   var setDisabled = function (allSelector) {
@@ -72,13 +67,13 @@
   var errorWindowTemplate = document.querySelector('#error').content.querySelector('.error');
   var createErrorWindows = function (massageError) {
     var errorWindow = errorWindowTemplate.cloneNode(true);
-    errorWindow.querySelector('.error__message').innerHTML = massageError;
+    errorWindow.querySelector('.error__message').textContent = massageError;
     return errorWindow;
   };
   // Удаение карточки по Esc
-  var pressCloseCardHendler = function (evt) {
+  var cardPressCloseHendler = function (evt) {
     if (evt.key === 'Escape') {
-      document.removeEventListener('keydown', pressCloseCardHendler);
+      document.removeEventListener('keydown', cardPressCloseHendler);
       window.data.mapPins.removeChild(document.querySelector('.map__card'));
     }
   };
@@ -88,17 +83,17 @@
       window.data.mapPins.removeChild(document.querySelector('.map__card'));
     }
     window.data.mapPins.appendChild(ItemCard);
-    document.addEventListener('keydown', pressCloseCardHendler);
+    document.addEventListener('keydown', cardPressCloseHendler);
     ItemCard.querySelector('.popup__close').addEventListener('click', function () {
-      document.removeEventListener('keydown', pressCloseCardHendler);
+      document.removeEventListener('keydown', cardPressCloseHendler);
       window.data.mapPins.removeChild(ItemCard);
     });
   };
   // Функция отрисовки информ окна при ошибке загрузки данных
   var errorHandler = function (errorMessage) {
     document.querySelector('main').appendChild(createErrorWindows(errorMessage));
-    document.querySelector('.error__button').addEventListener('keydown', pressCloseErrorWinHendler);
-    document.querySelector('.error__button').addEventListener('click', pressCloseErrorWinHendler);
+    document.querySelector('.error__button').addEventListener('keydown', winErrorClosePressHendler);
+    document.querySelector('.error__button').addEventListener('click', winErrorClosePressHendler);
   };
   // Функция отрисовки pins при удачной загрузке данных
   var successHandler = function (info) {
@@ -146,30 +141,30 @@
       cleanPins();
       cleanForm();
       sectionMap.appendChild(createSuccessWindows());
-      document.addEventListener('keydown', pressCloseSuccsesWinHendler);
-      document.addEventListener('click', pressCloseSuccsesWinHendler);
+      document.addEventListener('keydown', succsesWinPressCLoseHendler);
+      document.addEventListener('click', succsesWinPressCLoseHendler);
     },
     function (massageError) {
       document.querySelector('main').appendChild(createErrorWindows(massageError));
-      document.addEventListener('keydown', pressCloseErrorWinHendler);
-      document.addEventListener('click', pressCloseErrorWinHendler);
+      document.addEventListener('keydown', winErrorClosePressHendler);
+      document.addEventListener('click', winErrorClosePressHendler);
     });
     evt.preventDefault();
   });
   // Слушатель на закрытие окна успешной отправки формы
-  var pressCloseSuccsesWinHendler = function (evt) {
+  var succsesWinPressCLoseHendler = function (evt) {
     if (evt.key === 'Escape' || evt.button === 0) {
       sectionMap.removeChild(document.querySelector('.success'));
-      document.removeEventListener('keydown', pressCloseSuccsesWinHendler);
-      document.removeEventListener('click', pressCloseSuccsesWinHendler);
+      document.removeEventListener('keydown', succsesWinPressCLoseHendler);
+      document.removeEventListener('click', succsesWinPressCLoseHendler);
     }
   };
   // Слушатель на закрытие окна ошибки
-  var pressCloseErrorWinHendler = function (evt) {
+  var winErrorClosePressHendler = function (evt) {
     if (evt.key === 'Escape' || evt.button === 0) {
       document.querySelector('main').removeChild(document.querySelector('.error'));
-      document.removeEventListener('keydown', pressCloseErrorWinHendler);
-      document.removeEventListener('click', pressCloseErrorWinHendler);
+      document.removeEventListener('keydown', winErrorClosePressHendler);
+      document.removeEventListener('click', winErrorClosePressHendler);
     }
   };
 

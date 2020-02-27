@@ -16,6 +16,9 @@
   fileChooserRoom.addEventListener('change', function () {
     var file = fileChooserRoom.files[0];
     var reader = new FileReader();
+    if (document.querySelector('.ad-form__photo img')) {
+      fieldForYourPhoto.removeChild(document.querySelector('.ad-form__photo img'));
+    }
     reader.addEventListener('load', function () {
       var setPhotoRoom = function () {
         var picRoom = document.createElement('img');

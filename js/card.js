@@ -2,7 +2,7 @@
 'use strict';
 (function () {
   //Добавляем словарь
-  var typeOfPlaceMap = {
+  var placeMap = {
     palace: {
       name: 'Дворец',
       cost: 10000
@@ -20,9 +20,9 @@
       cost: 5000
     }
   };
-//Обьявляем mainPin для заполнения личной формы
+  //Обьявляем mainPin для заполнения личной формы
   var mainPin = document.querySelector('.map__pin--main');
-//Устанавливаем края карты для движения mainPin
+  //Устанавливаем края карты для движения mainPin
   var eadgeMap = {
     top: window.data.MIN_Y_MAP - parseInt(window.data.pinHeight, 10),
     bottom: window.data.MAX_Y_MAP,
@@ -59,15 +59,16 @@
   // Функция для отрисовки карточки
   var renderAddCard = function (element) {
     var addCard = similarAdddCardTemplate.cloneNode(true);
-    addCard.querySelector('.popup__title').innerHTML = element.offer.title;
-    addCard.querySelector('.popup__text--address').innerHTML = element.offer.address;
-    addCard.querySelector('.popup__text--price').innerHTML = element.offer.price + 'Р/ночь';
-    addCard.querySelector('.popup__type').innerHTML = typeOfPlaceMap[element.offer.type].name;
-    addCard.querySelector('.popup__text--capacity').innerHTML = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
-    addCard.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+    addCard.querySelector('.popup__title').textContent = element.offer.title;
+    addCard.querySelector('.popup__text--address').textContent = element.offer.address;
+    addCard.querySelector('.popup__text--price').textContent = element.offer.price + 'Р/ночь';
+    addCard.querySelector('.popup__type').textContent = placeMap[element.offer.type].name;
+    addCard.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
+    addCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
     addCard.querySelector('.popup__features').appendChild(createFeature(element));
     addCard.querySelector('.popup__photos').appendChild(createImage(element));
     addCard.querySelector('.popup__avatar').src = element.author.avatar;
+    addCard.querySelector('.popup__description').textContent = element.offer.description;
     return addCard;
   };
   // Слушатель на активацию mainPin
@@ -78,7 +79,7 @@
       y: evt.clientY
     };
       // Функция на переопределение координат mainPin при его "перетаскивание"
-    var moveMouseHendler = function (moveEvt) {
+    var mouseMoveHendler = function (moveEvt) {
       moveEvt.preventDefault();
 
       var shift = {
@@ -108,18 +109,18 @@
       window.map.setCoords();
     };
     // Функция для зачистки слушателей о "перетаскивание" mainPin
-    var upMouseHendler = function (upEvt) {
+    var mouseUpHendler = function (upEvt) {
       upEvt.preventDefault();
-      window.data.mapPins.removeEventListener('mousemove', moveMouseHendler);
-      document.removeEventListener('mouseup', upMouseHendler);
+      window.data.mapPins.removeEventListener('mousemove', mouseMoveHendler);
+      document.removeEventListener('mouseup', mouseUpHendler);
     };
       // Обьявляем слушатели на "перетаскивание" и отпускание mainPin
-    window.data.mapPins.addEventListener('mousemove', moveMouseHendler);
-    document.addEventListener('mouseup', upMouseHendler);
+    window.data.mapPins.addEventListener('mousemove', mouseMoveHendler);
+    document.addEventListener('mouseup', mouseUpHendler);
   });
 
   window.card = {
     renderAddCard: renderAddCard,
-    typeOfPlaceMap: typeOfPlaceMap
+    placeMap: placeMap
   };
 })();
