@@ -1,7 +1,7 @@
 
 'use strict';
 (function () {
-  //Добавляем словарь
+  // Добавляем словарь
   var placeMap = {
     palace: {
       name: 'Дворец',
@@ -20,9 +20,9 @@
       cost: 5000
     }
   };
-  //Обьявляем mainPin для заполнения личной формы
+  // Обьявляем mainPin для заполнения личной формы
   var mainPin = document.querySelector('.map__pin--main');
-  //Устанавливаем края карты для движения mainPin
+  // Устанавливаем края карты для движения mainPin
   var eadgeMap = {
     top: window.data.MIN_Y_MAP - parseInt(window.data.pinHeight, 10),
     bottom: window.data.MAX_Y_MAP,
