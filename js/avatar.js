@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var PIC_WIDTH = 70;
+  var PIC_HEIGHT = 70;
   var fileChooserAvatar = document.querySelector('.ad-form__field input[type="file"]');
   var avatar = document.querySelector('.ad-form-header__preview img');
   var fileChooserRoom = document.querySelector('.ad-form__upload input[type="file"]');
@@ -22,8 +24,8 @@
     reader.addEventListener('load', function () {
       var setPhotoRoom = function () {
         var picRoom = document.createElement('img');
-        picRoom.width = 70;
-        picRoom.height = 70;
+        picRoom.width = PIC_WIDTH;
+        picRoom.height = PIC_HEIGHT;
         picRoom.alt = 'Фото комнаты для сдачи в аренду';
         return picRoom;
       };
