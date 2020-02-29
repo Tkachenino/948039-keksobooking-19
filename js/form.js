@@ -18,6 +18,13 @@
 
   formSection.addEventListener('click', validityCheckHendler);
   // Установка disabled на кол. гостей
+  var setDefaultSelectorRoomGest = function () {
+    sectionGuest.querySelector('option[value="0"]').setAttribute('disabled', true);
+    for (var q = Number(sectionRoom.value); q < MAX_AMOUNT_GUEST;) {
+      sectionGuest.querySelector('option[value="' + (++q) + '"]').setAttribute('disabled', true);
+    }
+  };
+  // Установка disabled на кол. гостей
   sectionRoom.addEventListener('change', function (evt) {
     (sectionGuest.querySelectorAll('option[disabled]')).forEach(function (items) {
       return items.removeAttribute('disabled');
@@ -31,11 +38,7 @@
       }
     } else {
       sectionGuest.value = evt.target.value;
-      sectionGuest.querySelector('option[value="0"]').setAttribute('disabled', true);
-
-      for (var q = Number(evt.target.value); q < MAX_AMOUNT_GUEST;) {
-        sectionGuest.querySelector('option[value="' + (++q) + '"]').setAttribute('disabled', true);
-      }
+      setDefaultSelectorRoomGest();
     }
   });
   // Установка disabled на кол. гостей при первой загрзке
@@ -88,6 +91,7 @@
   });
 
   window.form = {
+    setDefaultSelectorRoomGest: setDefaultSelectorRoomGest,
     formSection: formSection,
     setCostForAppart: setCostForAppart,
     userPrice: userPrice,

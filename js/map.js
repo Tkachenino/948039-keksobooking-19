@@ -20,7 +20,7 @@
       index.removeAttribute('disabled');
     });
   };
-    // Функция для передачи координат mainPin в адресную строку
+  // Функция для передачи координат mainPin в адресную строку
   var setCoords = function () {
     document.querySelector('#address').value = (parseInt(mainPin.style.left, 10) + (window.data.pinWidth / 2)) + ' px, '
       + (parseInt(mainPin.style.top, 10) + window.data.pinHeight) + ' px';
@@ -43,6 +43,7 @@
     resetDisabled(fieldsetToAdForm);
     resetDisabled(fieldsetToMapFilter);
     resetDisabled(selectorToMapFilter);
+    window.form.setDefaultSelectorRoomGest();
   };
   // Сброс с карты всех pin кроме mainPin
   var cleanPins = function () {
@@ -60,6 +61,8 @@
     if (document.querySelector('.ad-form__photo img')) {
       document.querySelector('.ad-form__photo').removeChild(document.querySelector('.ad-form__photo img'));
     }
+
+    window.form.setDefaultSelectorRoomGest();
 
     setCoords();
   };
