@@ -26,11 +26,11 @@
       if (tagFilters.housePrice.value === 'any') {
         return true;
       } else if (tagFilters.housePrice.value === 'low') {
-        return parseInt((data.offer.price), 10) < 10000;
+        return data.offer.price < 10000;
       } else if (tagFilters.housePrice.value === 'high') {
-        return parseInt((data.offer.price), 10) > 50000;
+        return data.offer.price > 50000;
       } else {
-        return parseInt((data.offer.price), 10) >= 10000 && parseInt((data.offer.price), 10) <= 50000;
+        return (data.offer.price >= 10000) && (data.offer.price <= 50000);
       }
     };
     // Отбор pins по кол комнат

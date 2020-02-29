@@ -24,25 +24,28 @@
   var mainPin = document.querySelector('.map__pin--main');
   // Устанавливаем края карты для движения mainPin
   var eadgeMap = {
-    top: window.data.MIN_Y_MAP - parseInt(window.data.pinHeight, 10),
+    top: window.data.MIN_Y_MAP - window.data.pinHeight,
     bottom: window.data.MAX_Y_MAP,
-    left: -parseInt(window.data.pinWidth / 2, 10),
-    right: parseInt(window.data.mapWidth - window.data.pinWidth / 2, 10)
+    left: -window.data.pinWidth / 2,
+    right: window.data.mapPinsWidth - window.data.pinWidth / 2
   };
   // Создаем DOM элементы (DIV) для плашек доп. параметров у карточки
   var createFeature = function (element) {
     var newFeatures = document.createDocumentFragment();
+
     element.offer.features.forEach(function (currentIndex) {
       var newFeature = document.createElement('li');
       newFeature.classList.add('popup__feature');
       newFeature.classList.add('popup__feature--' + currentIndex);
       newFeatures.appendChild(newFeature);
     });
+
     return newFeatures;
   };
   // Создаем DOM элементы (IMG) для плашек доп. фото у карточки
   var createImage = function (element) {
     var newImages = document.createDocumentFragment();
+
     element.offer.photos.forEach(function (currentIndex) {
       var newImage = document.createElement('img');
       newImage.classList.add('popup__photo');
@@ -52,6 +55,7 @@
       newImage.src = currentIndex;
       newImages.appendChild(newImage);
     });
+
     return newImages;
   };
   // Поиск шаблона для карточки
@@ -59,6 +63,7 @@
   // Функция для отрисовки карточки
   var renderAddCard = function (element) {
     var addCard = similarAdddCardTemplate.cloneNode(true);
+
     addCard.querySelector('.popup__title').textContent = element.offer.title;
     addCard.querySelector('.popup__text--address').textContent = element.offer.address;
     addCard.querySelector('.popup__text--price').textContent = element.offer.price + 'Р/ночь';
@@ -69,11 +74,13 @@
     addCard.querySelector('.popup__photos').appendChild(createImage(element));
     addCard.querySelector('.popup__avatar').src = element.author.avatar;
     addCard.querySelector('.popup__description').textContent = element.offer.description;
+
     return addCard;
   };
   // Слушатель на активацию mainPin
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
+
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -100,6 +107,7 @@
       } else if (parseInt(mainPin.style.top, 10) > eadgeMap.bottom) {
         mainPin.style.top = (eadgeMap.bottom + 'px');
       }
+
       if (parseInt(mainPin.style.left, 10) < eadgeMap.left) {
         mainPin.style.left = (eadgeMap.left + 'px');
       } else if (parseInt(mainPin.style.left, 10) > eadgeMap.right) {
@@ -111,6 +119,7 @@
     // Функция для зачистки слушателей о "перетаскивание" mainPin
     var mouseUpHendler = function (upEvt) {
       upEvt.preventDefault();
+
       window.data.mapPins.removeEventListener('mousemove', mouseMoveHendler);
       document.removeEventListener('mouseup', mouseUpHendler);
     };

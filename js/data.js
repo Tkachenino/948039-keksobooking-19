@@ -5,10 +5,10 @@
   var MAX_Y_MAP = 630;
   // Поиск габаритов pin
   var mapPins = document.querySelector('.map__pins');
-  var mapPinsWidth = parseInt(mapPins.offsetWidth, 10);
+  var mapPinsWidth = mapPins.offsetWidth;
   var pin = document.querySelector('.map__pin');
-  var pinWidth = parseInt(pin.clientWidth, 10);
-  var pinHeight = parseInt(pin.clientHeight, 10);
+  var pinWidth = pin.clientWidth;
+  var pinHeight = pin.clientHeight;
   // Вывод данных в глобальное окружение
   window.data = {
     mapPins: mapPins,

@@ -22,8 +22,8 @@
   };
     // Функция для передачи координат mainPin в адресную строку
   var setCoords = function () {
-    document.querySelector('#address').value = parseInt(String(mainPin.style.left).replace('px', ''), 10) + parseInt(window.data.pinWidth / 2, 10) + ', '
-      + (parseInt(String(mainPin.style.top).replace('px', ''), 10) + parseInt((window.data.pinHeight), 10));
+    document.querySelector('#address').value = (parseInt(mainPin.style.left, 10) + (window.data.pinWidth / 2)) + ' px, '
+      + (parseInt(mainPin.style.top, 10) + window.data.pinHeight) + ' px';
   };
   // Первичная отрисовка disabled формы при загрузке
   var setDisableMap = function () {
@@ -55,13 +55,19 @@
     window.form.formSection.reset();
     mainPin.style = BEGIN_COORDS_PIN;
     window.form.setCostForAppart(window.form.userAppart, window.form.userPrice);
+    document.querySelector('.ad-form-header__preview img').src = 'img/muffin-grey.svg';
+
+    if (document.querySelector('.ad-form__photo img')) {
+      document.querySelector('.ad-form__photo').removeChild(document.querySelector('.ad-form__photo img'));
+    }
+
     setCoords();
   };
   // Функция отрисовки окна успешной отправки формы
   var successWindowTemplate = document.querySelector('#success').content.querySelector('.success');
+
   var createSuccessWindows = function () {
-    var successWindow = successWindowTemplate.cloneNode(true);
-    return successWindow;
+    return successWindowTemplate.cloneNode(true);
   };
   // Функция отрисовки окна при возникновение ошибки
   var errorWindowTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -82,8 +88,10 @@
     if (document.querySelector('.map__card')) {
       window.data.mapPins.removeChild(document.querySelector('.map__card'));
     }
+
     window.data.mapPins.appendChild(ItemCard);
     document.addEventListener('keydown', cardPressCloseHendler);
+
     ItemCard.querySelector('.popup__close').addEventListener('click', function () {
       document.removeEventListener('keydown', cardPressCloseHendler);
       window.data.mapPins.removeChild(ItemCard);
@@ -101,10 +109,12 @@
     info = info.slice(0, amountOfPins);
     info.forEach(function (currentItem) {
       var pinClone = window.pin.renderAddPin(currentItem);
+
       var openPopup = function () {
         var getInfoTurgetCard = window.card.renderAddCard(currentItem);
         controlCard(getInfoTurgetCard);
       };
+
       pinClone.addEventListener('click', openPopup);
       basketForPin.appendChild(pinClone);
     });
@@ -141,8 +151,8 @@
       cleanPins();
       cleanForm();
       sectionMap.appendChild(createSuccessWindows());
-      document.addEventListener('keydown', succsesWinPressCLoseHendler);
-      document.addEventListener('click', succsesWinPressCLoseHendler);
+      document.addEventListener('keydown', succsesWinPressCloseHendler);
+      document.addEventListener('click', succsesWinPressCloseHendler);
     },
     function (massageError) {
       document.querySelector('main').appendChild(createErrorWindows(massageError));
@@ -152,11 +162,11 @@
     evt.preventDefault();
   });
   // Слушатель на закрытие окна успешной отправки формы
-  var succsesWinPressCLoseHendler = function (evt) {
+  var succsesWinPressCloseHendler = function (evt) {
     if (evt.key === 'Escape' || evt.button === 0) {
       sectionMap.removeChild(document.querySelector('.success'));
-      document.removeEventListener('keydown', succsesWinPressCLoseHendler);
-      document.removeEventListener('click', succsesWinPressCLoseHendler);
+      document.removeEventListener('keydown', succsesWinPressCloseHendler);
+      document.removeEventListener('click', succsesWinPressCloseHendler);
     }
   };
   // Слушатель на закрытие окна ошибки
